@@ -1,0 +1,663 @@
+VEX_rev = 1.5B;
+*
+*  INFORMATIONS for CORR and VEDA
+* prep = wait: 150;
+* beam = none;
+* att =   A: level: 35: 45: 45;
+* att =   B: level: 35: 45: 45;
+* rec =   S1: 42770MHz: 512MHz: A: ADS1K: VSREC: 40;
+* rec =   S2: 42770MHz: 512MHz: B: ADS1K: VSREC: 41;
+* rec =   S3: 42258MHz: 512MHz: B: ADS3K: VSREC: 36;
+* rec =   S4: 42770MHz: 512MHz: B: ADS3K: VSREC: 37;
+* rec =   S5: 43282MHz: 512MHz: B: ADS3K: VSREC: 38;
+* rec =   S6: 43794MHz: 512MHz: B: ADS3K: VSREC: 39;
+* bunch = S1: 42770MHz: 512MHz:  1024:  512: 0.8: 1.0: 1.0;
+* bunch = S2: 42770MHz: 512MHz:  1024:  512: 0.8: 1.0: 1.0;
+* bunch = S3: 42258MHz: 512MHz:  1024:  512: 0.8: 1.0: 1.0;
+* bunch = S4: 42770MHz: 512MHz:  1024:  512: 0.8: 1.0: 1.0;
+* bunch = S5: 43282MHz: 512MHz:  1024:  512: 0.8: 1.0: 1.0;
+* bunch = S6: 43794MHz: 512MHz:  1024:  512: 0.8: 1.0: 1.0;
+*  VEDA_REFSOUR=SN23IXF;
+*  VEDA_TARGET=J1359+55;
+*  VEDA_TARGETVLSR=;
+*  VEDA_TARGETVW=;
+*  VEDA_REFSOUR2=;
+*  VEDA_TARGET2=;
+*  VEDA_TARGETVLSR2=;
+*  VEDA_TARGETVW2=;
+*  VEDA_DELACALB=3C273;
+*  VEDA_BPAMPCALA=3C273;
+*  VEDA_BPAMPCALB=3C273;
+*  VEDA_FREQ=0;
+*  GENJ_SRCNO=0;
+*  VEX_SHIFTDOPP=0;
+*  VEX_NUMSTA=3;
+*  VEX_OBSINTERV=0.5M;
+* GENJI=NRAO530;
+*------------------------------------------------------------------------------
+$GLOBAL;
+     ref $EXPER = r23148a;
+     ref $PROCEDURES = STD_2BEAM;
+*
+$EXPER;
+*
+def r23148a;
+     target_correlator = VERA;
+     exper_name = r23148a;
+     exper_description = DDT_SN;
+     exper_nominal_start = 2023y148d07h50m00s;
+     exper_nominal_stop  = 2023y148d15h37m00s;
+     PI_name = demo name;
+     PI_email = demo email;
+     contact_name = demo name;
+     contact_email = demo email;
+     scheduler_name = demo name;
+     scheduler_email = demo email;
+enddef;
+*
+$MODE;
+*
+def VERA7SIO2;
+     ref $PROCEDURES = PROC1:Vm:Vr:Vo:Vs;
+     ref $FREQ = VERA7SIO2:Vm:Vr:Vo:Vs;
+     ref $IF = IF_Q:Vm:Vr:Vo:Vs;
+     ref $BBC = BBC1:Vm:Vr:Vo:Vs;
+enddef;
+*
+* VERA7SIO2_TPC for the tape change (change before scan)
+def VERA7SIO2_TPC;
+     ref $PROCEDURES = PROC2:Vm:Vr:Vo:Vs;
+     ref $FREQ = VERA7SIO2:Vm:Vr:Vo:Vs;
+     ref $IF = IF_Q:Vm:Vr:Vo:Vs;
+     ref $BBC = BBC1:Vm:Vr:Vo:Vs;
+enddef;
+*
+* VERA7SIO2_F for the first scan (sec Z before scan)
+def VERA7SIO2_F;
+     ref $PROCEDURES = PROC3:Vr:Vs:Vm:Vo;
+     ref $FREQ = VERA7SIO2:Vm:Vr:Vo:Vs;
+     ref $BBC = BBC1:Vr:Vs:Vm:Vo;
+     ref $IF = IF_Q:Vr:Vs:Vm:Vo;
+enddef;
+*
+* VERA7SIO2_L for the last scan (sec Z after scan)
+def VERA7SIO2_L;
+     ref $PROCEDURES = PROC4:Vm:Vr:Vo:Vs;
+     ref $FREQ = VERA7SIO2:Vm:Vr:Vo:Vs;
+     ref $IF = IF_Q:Vm:Vr:Vo:Vs;
+     ref $BBC = BBC1:Vm:Vr:Vo:Vs;
+enddef;
+
+*
+def VERA7SIO2_G;
+     ref $PROCEDURES = PROC5:Vm:Vr:Vo:Vs;
+     ref $FREQ = VERA7SIO2:Vm:Vr:Vo:Vs;
+     ref $IF = IF_Q:Vm:Vr:Vo:Vs;
+     ref $BBC = BBC1:Vm:Vr:Vo:Vs;
+enddef;
+*
+def VERA7SIO2_C;
+     ref $PROCEDURES = PROC6:Vm:Vr:Vo:Vs;
+     ref $FREQ = VERA7SIO2:Vm:Vr:Vo:Vs;
+     ref $IF = IF_Q:Vm:Vr:Vo:Vs;
+     ref $BBC = BBC1:Vm:Vr:Vo:Vs;
+enddef;
+*
+*
+*------------------------------------------------------------------------------
+$PROCEDURES;
+*
+def STD_2BEAM;
+     tape_change =  180 sec;
+     beam1 = on;
+     beam2 = on;
+enddef;
+*
+def PROC1;
+     preob_cal = on : 20 sec : R_SKY;
+     midob_cal  = on :  30 sec : NSC : on : 30 sec;
+enddef;
+*
+def PROC2;
+     preob_cal = on : 180 sec : TAPE_C;
+     preob_cal = on : 20 sec : R_SKY;
+     midob_cal  = on :  30 sec : NSC : on : 30 sec;
+enddef;
+*
+def PROC3;
+     preob_cal = on : 10 sec : SECZ : 600 sec ;
+     preob_cal = on : 20 sec : R_SKY;
+     midob_cal  = on :  30 sec : NSC : on : 30 sec;
+enddef;
+*
+def PROC4;
+     preob_cal = on : 20 sec : R_SKY;
+     midob_cal  = on :  30 sec : NSC : on : 30 sec;
+     postob_cal = on : 20 sec : R_SKY;
+     postob_cal = on : 10 sec : SECZ : 60 sec ;
+enddef;
+*
+*
+def PROC5;
+*Nothing
+enddef;
+*
+*
+def PROC6;
+     preob_cal = on : 20 sec : R_SKY;
+enddef;
+*
+
+
+def PROC10;
+* 1-beam position switch, source1 32sec slew 8sec source2 12sec slew 8sec
+*      use one RX (RX-A or RX-B) for both source1 and source2
+*
+     preob_cal = on : 20 sec : R_SKY;
+     midob_cal  = on :   8 sec : SSW : off : 32 sec : 12 sec;
+enddef;
+*
+*------------------------------------------------------------------------------
+$FREQ;
+*
+*
+*
+def  VERA7SIO2;
+     * DFmode = VERA7Q
+     * 43 GHz dual beam, especially for SiO masers in S01 and S09
+     * BBCLO = 5.270 GHz
+     sample_rate = 512.000 Ms/sec;
+     chan_def = &R1: 42834.000000 MHz: L: 16.00 MHz: &S01 : &BBCa : &NoCal;
+     chan_def = &R2: 42834.000000 MHz: L: 16.00 MHz: &S02 : &BBCb : &NoCal;
+     chan_def = &R2: 42834.000000 MHz: U: 16.00 MHz: &S03 : &BBCb : &NoCal;
+     chan_def = &R2: 42866.000000 MHz: U: 16.00 MHz: &S04 : &BBCb : &NoCal;
+     chan_def = &R2: 42898.000000 MHz: U: 16.00 MHz: &S05 : &BBCb : &NoCal;
+     chan_def = &R2: 42930.000000 MHz: U: 16.00 MHz: &S06 : &BBCb : &NoCal;
+     chan_def = &R2: 42962.000000 MHz: U: 16.00 MHz: &S07 : &BBCb : &NoCal;
+     chan_def = &R2: 42994.000000 MHz: U: 16.00 MHz: &S08 : &BBCb : &NoCal;
+     chan_def = &R1: 43122.000000 MHz: U: 16.00 MHz: &S09 : &BBCa : &NoCal;
+     chan_def = &R2: 43026.000000 MHz: U: 16.00 MHz: &S10 : &BBCb : &NoCal;
+     chan_def = &R2: 43058.000000 MHz: U: 16.00 MHz: &S11 : &BBCb : &NoCal;
+     chan_def = &R2: 43090.000000 MHz: U: 16.00 MHz: &S12 : &BBCb : &NoCal;
+     chan_def = &R2: 43122.000000 MHz: U: 16.00 MHz: &S13 : &BBCb : &NoCal;
+     chan_def = &R2: 43154.000000 MHz: U: 16.00 MHz: &S14 : &BBCb : &NoCal;
+     chan_def = &R2: 43186.000000 MHz: U: 16.00 MHz: &S15 : &BBCb : &NoCal;
+     chan_def = &R2: 43218.000000 MHz: U: 16.00 MHz: &S16 : &BBCb : &NoCal;
+enddef;
+
+
+*
+*------------------------------------------------------------------------------
+$IF;
+*
+def IF_K;
+     if_def = &IF_R1: B1: L: 16800.0 MHz: U ; 
+     if_def = &IF_R2: B2: L: 16800.0 MHz: U ;
+enddef;
+*
+def IF_Q;
+     if_def = &IF_R1: B1: L: 37500.0 MHz: U ; 
+     if_def = &IF_R2: B2: L: 37500.0 MHz: U ;
+enddef;
+*
+def IF_SX;
+     if_def = &IF_R1: B1: L: 2000.0 MHz: U ; 
+     if_def = &IF_R2: B2: L: 8080.0 MHz: U ;
+enddef;
+*
+*------------------------------------------------------------------------------
+$BBC;
+*
+def BBC1;
+     BBC_assign = &BBCa:  1: &IF_R1;
+     BBC_assign = &BBCb:  2: &IF_R2;
+enddef;
+*
+*------------------------------------------------------------------------------
+$STATION;
+*
+def Vr;
+     ref $SITE = VERAIRIK;
+     ref $ANTENNA = VERA_IRIKI;
+     ref $DAS = VERA_DIR2K;
+*     ref $DAS = VERA_DIR1K_N;
+enddef;
+*
+def Vs;
+     ref $SITE = VERAISGK;
+     ref $ANTENNA = VERA_ISHIGAK;
+     ref $DAS = VERA_DIR2K;
+*     ref $DAS = VERA_DIR1K_N;
+enddef;
+*
+def Vo;
+     ref $SITE = VERAOGSW;
+     ref $ANTENNA = VERA_OGASAWA;
+     ref $DAS = VERA_DIR2K;
+*     ref $DAS = VERA_DIR1K_N;
+enddef;
+*
+def Vm;
+     ref $SITE = VERAMZSW;
+     ref $ANTENNA = VERA_MIZUSAW;
+     ref $DAS = VERA_DIR2K;
+*     ref $DAS = VERA_DIR1K_N;
+enddef;
+*
+*------------------------------------------------------------------------------
+$DAS;
+*
+def VERA_DIR2K;
+     record_transport_type = DIR2K;
+     electronics_rack_type = VERA;
+     number_drives = 1;
+     tape_length = 81 min;
+     tape_motion = continuous : 20 sec;
+enddef;
+*
+*------------------------------------------------------------------------------
+$SOURCE;
+*
+def SN23IXF;
+     source_name = SN23IXF;
+     ra = 14h03m38.562s;
+     dec = 54d18'41.94";
+     ref_coord_frame = J2000;
+enddef;
+*
+def J1359+55;
+     source_name = J1359+55;
+     ra = 13h59m05.743431s;
+     dec = 55d44'29.38375";
+     ref_coord_frame = J2000;
+enddef;
+*
+def 3C273;
+     source_name = 3C273;
+     ra = 12h29m06.699741s;
+     dec = 02d03'08.59811";
+     ref_coord_frame = J2000;
+enddef;
+*
+def 3C273A1;
+     source_name = 3C273A1;
+     ra = 12h25m03.960064s;
+     dec = 02d38'07.33952";
+     ref_coord_frame = J2000;
+enddef;
+*
+def 3C273B1;
+     source_name = 3C273B1;
+     ra = 12h33m09.262368s;
+     dec = 01d28'07.55804";
+     ref_coord_frame = J2000;
+enddef;
+*
+def J1228+3706;
+     source_name = J1228+3706;
+     ra = 12h28m47.42367714s;
+     dec = 37d06'12.0958131";
+     ref_coord_frame = J2000;
+enddef;
+*
+def J1220+3808;
+     source_name = J1220+3808;
+     ra = 12h20m59.22929738s;
+     dec = 38d08'55.7069682";
+     ref_coord_frame = J2000;
+enddef;
+*
+*
+*---------------------------------------------------------------------
+
+$SCHED;
+
+*
+scan No00001;
+     mode=VERA7SIO2_F;
+     start=2023y148d08h10m00s;
+     source1=J1228+3706;
+     source2=J1220+3808;
+     station=Vm:    0 sec:   120 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   120 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   120 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00002;
+     mode=VERA7SIO2_C;
+     start=2023y148d08h14m00s;
+     source1=3C273A1;
+     source2=3C273;
+     station=Vm:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00003;
+     mode=VERA7SIO2_C;
+     start=2023y148d08h18m00s;
+     source1=3C273;
+     source2=3C273B1;
+     station=Vm:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00004;
+     mode=VERA7SIO2;
+     start=2023y148d08h23m00s;
+     source1=J1359+55;
+     source2=SN23IXF;
+     station=Vm:    0 sec:   3600 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   3600 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   3600 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00005;
+     mode=VERA7SIO2_C;
+     start=2023y148d09h25m00s;
+     source1=3C273A1;
+     source2=3C273;
+     station=Vm:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00006;
+     mode=VERA7SIO2_C;
+     start=2023y148d09h29m00s;
+     source1=3C273;
+     source2=3C273B1;
+     station=Vm:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00007;
+     mode=VERA7SIO2;
+     start=2023y148d09h34m00s;
+     source1=J1359+55;
+     source2=SN23IXF;
+     station=Vm:    0 sec:   3600 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   3600 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   3600 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00008;
+     mode=VERA7SIO2_C;
+     start=2023y148d10h36m00s;
+     source1=3C273A1;
+     source2=3C273;
+     station=Vm:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00009;
+     mode=VERA7SIO2_C;
+     start=2023y148d10h40m00s;
+     source1=3C273;
+     source2=3C273B1;
+     station=Vm:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00010;
+     mode=VERA7SIO2;
+     start=2023y148d10h45m00s;
+     source1=J1359+55;
+     source2=SN23IXF;
+     station=Vm:    0 sec:   3600 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   3600 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   3600 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00011;
+     mode=VERA7SIO2_C;
+     start=2023y148d11h47m00s;
+     source1=3C273A1;
+     source2=3C273;
+     station=Vm:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00012;
+     mode=VERA7SIO2_C;
+     start=2023y148d11h51m00s;
+     source1=3C273;
+     source2=3C273B1;
+     station=Vm:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00013;
+     mode=VERA7SIO2;
+     start=2023y148d11h56m00s;
+     source1=J1359+55;
+     source2=SN23IXF;
+     station=Vm:    0 sec:   3600 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   3600 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   3600 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00014;
+     mode=VERA7SIO2_C;
+     start=2023y148d12h58m00s;
+     source1=3C273A1;
+     source2=3C273;
+     station=Vm:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00015;
+     mode=VERA7SIO2_C;
+     start=2023y148d13h02m00s;
+     source1=3C273;
+     source2=3C273B1;
+     station=Vm:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00016;
+     mode=VERA7SIO2;
+     start=2023y148d13h07m00s;
+     source1=J1359+55;
+     source2=SN23IXF;
+     station=Vm:    0 sec:   3600 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   3600 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   3600 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00017;
+     mode=VERA7SIO2_C;
+     start=2023y148d14h09m00s;
+     source1=3C273A1;
+     source2=3C273;
+     station=Vm:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00018;
+     mode=VERA7SIO2_C;
+     start=2023y148d14h13m00s;
+     source1=3C273;
+     source2=3C273B1;
+     station=Vm:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   180 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00019;
+     mode=VERA7SIO2;
+     start=2023y148d14h18m00s;
+     source1=J1359+55;
+     source2=SN23IXF;
+     station=Vm:    0 sec:   3600 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   3600 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   3600 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+scan No00020;
+     mode=VERA7SIO2_L;
+     start=2023y148d15h20m00s;
+     source1=J1228+3706;
+     source2=J1220+3808;
+     station=Vm:    0 sec:   120 sec:     0 sec:   :   : :    : 1;
+     station=Vr:    0 sec:   120 sec:     0 sec:   :   : :    : 1;
+     station=Vo:    0 sec:   120 sec:     0 sec:   :   : :    : 1;
+endscan;
+*
+
+*------------------------------------------------------------------------------
+$SITE;
+*
+def VERAIRIK;
+     site_type = fixed;
+     site_name = VERAIRIK;
+     site_ID = Vr;
+*    site position of Iriki on 2021/01/10 from v2005trf14
+     site_position = -3521719.8331 m: 4132174.6763 m: 3336994.1296 m;
+*     elev=  569.0 long=130:26:24.97 lat= 31:44:53.22 (GPS W)
+*     horizon_map_az =  0.0 deg: 10.0: 20.0: 30.0: 40.0: 50.0: 60.0: 70.0: 80.0:
+*                                90.0:100.0:110.0:120.0:130.0:140.0:145.0:150.0:
+*                               155.0:190.0:195.0:200.0:210.0:220.0:245.0:255.0:
+*                               260.0:270.0:280.0:290.0:300.0:310.0:320.0:330.0:
+*                               340.0:350.0:360.0;
+*     horizon_map_el = 10.0 deg: 11.0: 13.0: 15.0: 17.0: 17.0: 15.0: 13.0: 12.0:
+*                                11.0: 11.0: 11.0: 11.0: 11.0: 10.0:  9.0:  8.0:
+*                                 7.0:  7.0:  8.0:  9.0: 10.0: 10.0: 10.0: 11.0:
+*                                12.0: 12.0: 13.0: 13.0: 12.0: 11.0: 11.0: 10.0:
+*                                 9.0: 10.0: 10.0;
+enddef;
+*
+def VERAISGK;
+     site_type = fixed;
+     site_name = VERAISGK;
+     site_ID = Vs;
+*     elev=  24.0 long=124:13:59.0 lat= 24:25:48.0
+*    site position of Ishigaki on 2021/01/10 from v2005trf14
+     site_position = -3263995.2289 m: 4808056.3939 m: 2619948.5752 m;
+*     horizon_map_az =  0.0 deg: 10.0: 20.0: 30.0: 40.0: 50.0: 60.0: 70.0: 80.0:
+*                                90.0:100.0:110.0:120.0:130.0:140.0:145.0:150.0:
+*                               155.0:190.0:195.0:200.0:210.0:220.0:245.0:255.0:
+*                               260.0:270.0:280.0:290.0:300.0:310.0:320.0:330.0:
+*                               340.0:350.0:360.0;
+*     horizon_map_el = 10.0 deg: 11.0: 13.0: 15.0: 17.0: 17.0: 15.0: 13.0: 12.0:
+*                                11.0: 11.0: 11.0: 11.0: 11.0: 10.0:  9.0:  8.0:
+*                                 7.0:  7.0:  8.0:  9.0: 10.0: 10.0: 10.0: 11.0:
+*                                12.0: 12.0: 13.0: 13.0: 12.0: 11.0: 11.0: 10.0:
+*                                 9.0: 10.0: 10.0;
+enddef;
+*
+def VERAOGSW;
+     site_type = fixed;
+     site_name = VERAOGSW;
+     site_ID = Vo;
+*     elev=  246.70 long=142:12:42.0 lat=27:05:24.  (OLD)
+*    site position of Ogasawara on 2021/01/10 from v2005trf14
+     site_position = -4491068.2184 m: 3481545.3117 m: 2887399.8805 m;
+*     horizon_map_az =  0.0 deg: 10.0: 20.0: 30.0: 40.0: 50.0: 60.0: 70.0: 80.0:
+*                                90.0:100.0:110.0:120.0:130.0:140.0:145.0:150.0:
+*                               155.0:190.0:195.0:200.0:210.0:220.0:245.0:255.0:
+*                               260.0:270.0:280.0:290.0:300.0:310.0:320.0:330.0:
+*                               340.0:350.0:360.0;
+*     horizon_map_el = 10.0 deg: 11.0: 13.0: 15.0: 17.0: 17.0: 15.0: 13.0: 12.0:
+*                                11.0: 11.0: 11.0: 11.0: 11.0: 10.0:  9.0:  8.0:
+*                                 7.0:  7.0:  8.0:  9.0: 10.0: 10.0: 10.0: 11.0:
+*                                12.0: 12.0: 13.0: 13.0: 12.0: 11.0: 11.0: 10.0:
+*                                 9.0: 10.0: 10.0;
+enddef;
+*
+def VERAMZSW;
+     site_type = fixed;
+     site_name = VERAMZSW;
+     site_ID = Vm;
+*     elev=  62.0 long=141:08:10.0 lat= 39:07:54.0
+*    site position of Mizusawa on 2021/01/10 from v2005trf14
+     site_position = -3857245.0026 m: 3108782.8973 m: 4003899.2017 m;
+*     horizon_map_az =  0.0 deg:  5.0: 45.0: 50.0: 55.0: 60.0: 65.0: 70.0: 75.0:
+*                                80.0: 85.0: 90.0: 95.0:105.0:110.0:115.0:120.0:
+*                               150.0:155.0:165.0:170.0:180.0:185.0:215.0:220.0:
+*                               225.0:230.0:235.0:240.0:255.0:260.0:265.0:270.0:
+*                               360.0;
+*     horizon_map_el =  2.0 deg:  2.0:  2.0:  5.0:  6.0:  7.0:  7.0:  8.0:  8.0:
+*                                 9.0:  6.0:  3.0:  2.0:  2.0:  3.0:  3.0:  2.0:
+*                                 2.0:  3.0:  3.0:  2.0:  2.0:  3.0:  3.0:  4.0:
+*                                 4.0:  5.0:  5.0:  4.0:  4.0:  3.0:  3.0:  2.0:
+*                                 2.0;
+enddef;
+*
+*------------------------------------------------------------------------------
+$ANTENNA;
+*
+def VERA_IRIKI;
+ antenna_diam = 20m;
+ antenna_name = VERA_IRIKI;
+ axis_type = az : el;
+ axis_offset =     0.0 m;
+ antenna_motion = az :  120.0 deg/min : 1 sec;
+ antenna_motion = el :  120.0 deg/min : 1 sec;
+ pointing_sector = &ccw: az : -90 :   0 : el : 5 : 85 ;
+ pointing_sector = &n  : az :   0 : 360 : el : 5 : 85 ;
+ pointing_sector = &cw : az : 360 : 450 : el : 5 : 85 ;
+ multi_beam_number = 2;
+ multi_beam_type = VERA;
+ beam_separation = 0.32 deg: 2.2 deg: 0.03 deg/sec;
+ field_rotation = -270 deg: 270 deg: 3 deg/sec;
+enddef;
+*
+def VERA_ISHIGAK;
+ antenna_diam = 20m;
+ antenna_name = VERA_ISHIGAK;
+ axis_type = az : el;
+ axis_offset =     0.0 m;
+ antenna_motion = az :  120.0 deg/min : 1 sec;
+ antenna_motion = el :  120.0 deg/min : 1 sec;
+ pointing_sector = &ccw: az : -90 :   0 : el : 5 : 85 ;
+ pointing_sector = &n  : az :   0 : 360 : el : 5 : 85 ;
+ pointing_sector = &cw : az : 360 : 450 : el : 5 : 85 ;
+ multi_beam_number = 2;
+ multi_beam_type = VERA;
+ beam_separation = 0.32 deg: 2.2 deg: 0.03 deg/sec;
+ field_rotation = -270 deg: 270 deg: 3 deg/sec;
+enddef;
+*
+def VERA_OGASAWA;
+ antenna_diam = 20m;
+ antenna_name = VERA_OGASAWA;
+ axis_type = az : el;
+ axis_offset =     0.0 m;
+ antenna_motion = az :  120.0 deg/min : 1 sec;
+ antenna_motion = el :  120.0 deg/min : 1 sec;
+ pointing_sector = &ccw: az : -90 :   0 : el : 5 : 85 ;
+ pointing_sector = &n  : az :   0 : 360 : el : 5 : 85 ;
+ pointing_sector = &cw : az : 360 : 450 : el : 5 : 85 ;
+ multi_beam_number = 2;
+ multi_beam_type = VERA;
+ beam_separation = 0.32 deg: 2.2 deg: 0.03 deg/sec;
+ field_rotation = -270 deg: 270 deg: 3 deg/sec;
+enddef;
+*
+def VERA_MIZUSAW;
+ antenna_diam = 20m;
+ antenna_name = VERA_MIZUSAW;
+ axis_type = az : el;
+ axis_offset =     0.0 m;
+ antenna_motion = az :  120.0 deg/min : 1 sec;
+ antenna_motion = el :  120.0 deg/min : 1 sec;
+ pointing_sector = &ccw: az : -90 :   0 : el : 5 : 85 ;
+ pointing_sector = &n  : az :   0 : 360 : el : 5 : 85 ;
+ pointing_sector = &cw : az : 360 : 450 : el : 5 : 85 ;
+ multi_beam_number = 2;
+ multi_beam_type = VERA;
+ beam_separation = 0.32 deg: 2.2 deg: 0.03 deg/sec;
+ field_rotation = -270 deg: 270 deg: 3 deg/sec;
+enddef;
+*
+*------------------------------------------------------------------------------
